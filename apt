@@ -1,0 +1,48 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: apt [option] [arguments]"
+    echo "Options:"
+    echo "  update                  - Update package database"
+    echo "  upgrade                 - Upgrade all packages"
+    echo "  install <package>       - Install a package"
+    echo "  remove <package>        - Remove a package"
+    echo "  search <package>        - Search for a package"
+    echo "  autoremove              - Remove unnecessary packages"
+    echo "  show <package>          - Show package details"
+    echo "  list                    - List installed packages"
+}
+
+case "$1" in
+    update)
+        sudo pacman -Sy
+        ;;
+    upgrade)
+        sudo pacman -Syu
+        ;;
+    install)
+        shift
+        sudo pacman -S "$@"
+        ;;
+    remove)
+        shift
+        sudo pacman -R "$@"
+        ;;
+    search)
+        shift
+        pacman -Ss "$@"
+        ;;
+    autoremove)
+        sudo pacman -Rns $(pacman -Qdtq)
+        ;;
+    show)
+        shift
+        pacman -Qi "$@"
+        ;;
+    list)
+        pacman -Qe
+        ;;
+    *)
+        usage
+        ;;
+esac
