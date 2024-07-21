@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: dpkg [option] [arguments]"
+    echo "Options:"
+    echo "  -i <file>               - Install a package file"
+    echo "  -r <package>            - Remove a package"
+    echo "  -l                      - List installed packages"
+    echo "  -L <package>            - List files installed by package"
+    echo "  -S <file>               - Search for a package that owns the file"
+}
+
+case "$1" in
+    -i)
+        shift
+        sudo pacman -U "$@"
+        ;;
+    -r)
+        shift
+        sudo pacman -R "$@"
+        ;;
+    -l)
+        pacman -Q
+        ;;
+    -L)
+        shift
+        pacman -Ql "$@"
+        ;;
+    -S)
+        shift
+        pacman -Qo "$@"
+        ;;
+    *)
+        usage
+        ;;
+esac
